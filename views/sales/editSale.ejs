@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Bill | 1stChoice ERP</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(
+          135deg,
+          #fff5e6 0%,
+          #ffe8f0 50%,
+          #e6f7ff 100%
+        );
+        min-height: 100vh;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 50px;
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 5px 20px rgba(255, 107, 157, 0.15);
+        border-radius: 15px;
+        width: 90%;
+        margin: 25px auto;
+      }
+
+      .navbar h1 {
+        font-size: 1.8rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #ff6b9d, #ffa94d, #4ecdc4);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      a.back {
+        text-decoration: none;
+        background: linear-gradient(135deg, #4ecdc4, #6bcb77);
+        padding: 12px 25px;
+        color: white;
+        font-weight: 600;
+        border-radius: 25px;
+        box-shadow: 0 5px 15px rgba(78, 205, 196, 0.3);
+        transition: 0.3s;
+      }
+
+      a.back:hover {
+        transform: translateY(-2px);
+      }
+
+      .container {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        width: 90%;
+        margin: 20px auto 50px;
+        border-radius: 20px;
+        padding: 40px 60px;
+        box-shadow: 0 15px 45px rgba(255, 107, 157, 0.15);
+      }
+
+      h2 {
+        text-align: center;
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: #2c3e50;
+        position: relative;
+      }
+
+      h2::after {
+        content: "";
+        width: 100px;
+        height: 3px;
+        background: linear-gradient(90deg, #ff6b9d, #4ecdc4);
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+      }
+
+      /* === CUSTOMER DETAILS SECTION === */
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 25px 30px;
+      }
+
+      label {
+        font-weight: 600;
+        color: #34495e;
+        margin-bottom: 6px;
+        display: block;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px 15px;
+        border-radius: 10px;
+        border: 2px solid #e0e0e0;
+        font-size: 1rem;
+        background: #fff;
+        transition: 0.3s;
+      }
+
+      input:focus {
+        border-color: #ff6b9d;
+        outline: none;
+        box-shadow: 0 5px 10px rgba(255, 107, 157, 0.15);
+      }
+
+      input[readonly] {
+        background: #f5f5f5;
+        color: #333;
+        font-weight: 600;
+      }
+
+      hr.section-divider {
+        margin: 25px 0;
+        border: none;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #e0e0e0, transparent);
+      }
+
+      /* === PRODUCT TABLE === */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+      }
+
+      th {
+        background: linear-gradient(135deg, #ff6b9d, #ffa94d);
+        color: white;
+        padding: 12px;
+        font-weight: 700;
+      }
+
+      td {
+        padding: 12px;
+        background: white;
+      }
+
+      tbody tr:nth-child(even) td {
+        background-color: #fafafa;
+      }
+
+      td input {
+        padding: 8px;
+        width: 90%;
+        border-radius: 8px;
+        border: 2px solid #ddd;
+        text-align: center;
+      }
+
+      td input:focus {
+        border-color: #ff6b9d;
+      }
+
+      .total-cell {
+        font-weight: 700;
+        color: #27ae60;
+      }
+
+      .remove-btn {
+        background: linear-gradient(135deg, #ff4b5c, #ff7a5c);
+        border: none;
+        color: white;
+        padding: 8px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .remove-btn:hover {
+        transform: scale(1.05);
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 14px 30px;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: white;
+        background: linear-gradient(135deg, #ff6b9d, #ffa94d);
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(255, 107, 157, 0.3);
+      }
+
+      .add-row {
+        background: linear-gradient(135deg, #4ecdc4, #6bcb77);
+        margin-top: 15px;
+      }
+
+      .button-center {
+        text-align: center;
+        margin-top: 40px;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 25px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <h1>✏️ Edit Bill - <%= sale.billNumber %></h1>
+    </nav>
+
+    <div class="container">
+      <form action="/billing/<%= sale._id %>?_method=PUT" method="POST">
+        <!-- CUSTOMER DETAILS -->
+        <div>
+          <h2>👥 Customer Details</h2>
+          <div class="form-grid">
+            <div>
+              <label>Customer Name</label>
+              <input
+                type="text"
+                name="customer[name]"
+                value="<%= sale.customer ? sale.customer.name : '' %>"
+                required
+              />
+            </div>
+            <div>
+              <label>Phone Number</label>
+              <input
+                type="text"
+                name="customer[phone]"
+                value="<%= sale.customer ? sale.customer.phone : '' %>"
+                required
+              />
+            </div>
+            <div>
+              <label>Address</label>
+              <input
+                type="text"
+                name="customer[address]"
+                value="<%= sale.customer ? sale.customer.address : '' %>"
+              />
+            </div>
+          </div>
+        </div>
+
+        <hr class="section-divider" />
+
+        <!-- PRODUCT SECTION -->
+        <div>
+          <h2>🧸 Products</h2>
+          <table id="itemsTable">
+            <thead>
+              <tr>
+                <th>Product Name</th>
+                <th>Qty</th>
+                <th>Unit Price</th>
+                <th>Total</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% sale.items.forEach((item, index) => { %>
+              <tr>
+                <td>
+                  <input
+                    type="text"
+                    name="items[<%= index %>][name]"
+                    value="<%= item.name %>"
+                    required
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="qty"
+                    name="items[<%= index %>][qty]"
+                    value="<%= item.qty %>"
+                    step="0.01"
+                    required
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="price"
+                    name="items[<%= index %>][unitPrice]"
+                    value="<%= item.unitPrice %>"
+                    step="0.01"
+                    required
+                  />
+                </td>
+                <td class="total-cell">
+                  ₹ <%= (item.qty * item.unitPrice).toFixed(2) %>
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    class="remove-btn"
+                    onclick="removeRow(this)"
+                  >
+                    ✖
+                  </button>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+
+          <button type="button" class="btn add-row" onclick="addRow()">
+            ➕ Add Product
+          </button>
+        </div>
+
+        <hr class="section-divider" />
+
+        <!-- BILLING SUMMARY -->
+        <div>
+          <h2>💰 Billing Summary</h2>
+          <div class="form-grid">
+            <div>
+              <label>Global Discount (%)</label>
+              <input
+                type="number"
+                id="globalDiscount"
+                name="discounts[globalPercent]"
+                value="<%= sale.discounts?.globalPercent || 0 %>"
+                step="0.01"
+              />
+            </div>
+            <div>
+              <label>Additional Discount (₹)</label>
+              <input
+                type="number"
+                id="additionalDiscount"
+                name="discounts[additionalAmount]"
+                value="<%= sale.discounts?.additionalAmount || 0 %>"
+                step="0.01"
+              />
+            </div>
+            <div>
+              <label>Total Amount (₹)</label>
+              <input
+                type="number"
+                id="totalAmount"
+                name="totalAmount"
+                value="<%= sale.totalAmount.toFixed(2) %>"
+                step="0.01"
+                readonly
+              />
+            </div>
+            <div>
+              <label>Amount Paid (₹)</label>
+              <input
+                type="number"
+                name="totalPaid"
+                value="<%= sale.totalPaid.toFixed(2) %>"
+                step="0.01"
+                required
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="button-center">
+          <button type="submit" class="btn">💾 Update Bill</button>
+        </div>
+
+        <% if (view === "range") { %>
+        <input type="hidden" name="from" value="<%= from %>" />
+        <input type="hidden" name="to" value="<%= to %>" />
+        <input type="hidden" name="view" value="range" />
+        <% } else { %>
+        <input type="hidden" name="view" value="today" />
+        <% } %>
+      </form>
+    </div>
+
+    <script>
+      function updateTotals() {
+        let total = 0;
+        document.querySelectorAll("#itemsTable tbody tr").forEach((row) => {
+          const qty = parseFloat(row.querySelector(".qty")?.value || 0);
+          const price = parseFloat(row.querySelector(".price")?.value || 0);
+          const subtotal = qty * price;
+          row.querySelector(".total-cell").innerText =
+            "₹ " + subtotal.toFixed(2);
+          total += subtotal;
+        });
+
+        const globalDiscount =
+          parseFloat(document.getElementById("globalDiscount").value) || 0;
+        const additionalDiscount =
+          parseFloat(document.getElementById("additionalDiscount").value) || 0;
+
+        total -= (total * globalDiscount) / 100;
+        total -= additionalDiscount;
+        document.getElementById("totalAmount").value = total.toFixed(2);
+      }
+
+      function addRow() {
+        const tbody = document.querySelector("#itemsTable tbody");
+        const index = tbody.rows.length;
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td><input type="text" name="items[${index}][name]" required></td>
+          <td><input type="number" class="qty" name="items[${index}][qty]" step="0.01" required></td>
+          <td><input type="number" class="price" name="items[${index}][unitPrice]" step="0.01" required></td>
+          <td class="total-cell">₹ 0.00</td>
+          <td><button type="button" class="remove-btn" onclick="removeRow(this)">✖</button></td>
+        `;
+        tbody.appendChild(row);
+      }
+
+      function removeRow(btn) {
+        btn.closest("tr").remove();
+        updateTotals();
+      }
+
+      document.addEventListener("input", (e) => {
+        if (
+          e.target.classList.contains("qty") ||
+          e.target.classList.contains("price") ||
+          e.target.id === "globalDiscount" ||
+          e.target.id === "additionalDiscount"
+        ) {
+          updateTotals();
+        }
+      });
+
+      window.onload = updateTotals;
+    </script>
+  </body>
+</html>

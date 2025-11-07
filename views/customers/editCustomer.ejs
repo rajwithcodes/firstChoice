@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Customer | 1stChoice ERP</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #fff5e6, #ffe8f0, #e6f7ff);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .container {
+        margin-top: 60px;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 40px 60px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        width: 400px;
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #2c3e50;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        font-family: "Poppins", sans-serif;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        background: linear-gradient(135deg, #4ecdc4, #6bcb77);
+        color: white;
+        font-weight: 700;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(78, 205, 196, 0.3);
+      }
+
+      a.back {
+        display: inline-block;
+        margin-top: 20px;
+        text-decoration: none;
+        color: #4ecdc4;
+        font-weight: 600;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>✏️ Edit Customer</h2>
+      <form action="/customers/<%= customer._id %>?_method=PUT" method="POST">
+        <label for="name">Full Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value="<%= customer.name %>"
+          required
+        />
+
+        <label for="phone">Phone Number</label>
+        <input
+          type="text"
+          id="phone"
+          name="phone"
+          value="<%= customer.phone %>"
+          required
+        />
+
+        <label for="address">Address</label>
+        <textarea id="address" name="address" rows="3">
+<%= customer.address %></textarea
+        >
+
+        <button type="submit">💾 Update Customer</button>
+      </form>
+
+      <a href="/customers" class="back">← Back to Customers</a>
+    </div>
+  </body>
+</html>

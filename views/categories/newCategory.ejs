@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Category | 1stChoice ERP</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(
+          135deg,
+          #fff5e6 0%,
+          #ffe8f0 50%,
+          #e6f7ff 100%
+        );
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      .bg-animation {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .confetti {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        animation: fall 10s infinite ease-in-out;
+        opacity: 0.6;
+      }
+
+      .confetti:nth-child(1) {
+        background: #ff6b9d;
+        left: 10%;
+        animation-delay: 0s;
+      }
+      .confetti:nth-child(2) {
+        background: #ffa94d;
+        left: 25%;
+        animation-delay: 1.5s;
+      }
+      .confetti:nth-child(3) {
+        background: #4ecdc4;
+        left: 40%;
+        animation-delay: 3s;
+      }
+      .confetti:nth-child(4) {
+        background: #6bcb77;
+        left: 55%;
+        animation-delay: 0.8s;
+      }
+      .confetti:nth-child(5) {
+        background: #ffd93d;
+        left: 70%;
+        animation-delay: 2s;
+      }
+      .confetti:nth-child(6) {
+        background: #ff6b9d;
+        left: 85%;
+        animation-delay: 2.5s;
+      }
+
+      @keyframes fall {
+        0% {
+          transform: translateY(-10vh) rotate(0deg);
+          opacity: 0.8;
+        }
+        100% {
+          transform: translateY(110vh) rotate(360deg);
+          opacity: 0.2;
+        }
+      }
+
+      .navbar {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 50px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 5px 20px rgba(255, 107, 157, 0.15);
+        animation: slideDown 0.6s ease;
+      }
+
+      .navbar-left {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .navbar-logo {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #fff;
+        box-shadow: 0 5px 15px rgba(255, 107, 157, 0.3);
+        transition: all 0.3s ease;
+      }
+
+      .navbar-logo:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 20px rgba(255, 107, 157, 0.5);
+      }
+
+      .navbar h1 {
+        font-size: 1.8rem;
+        font-weight: 800;
+        background: linear-gradient(
+          135deg,
+          #ff6b9d,
+          #ffa94d,
+          #ffd93d,
+          #6bcb77,
+          #4ecdc4
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .navbar a {
+        padding: 12px 30px;
+        background: linear-gradient(135deg, #4ecdc4, #6bcb77);
+        color: white;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(78, 205, 196, 0.3);
+      }
+
+      .navbar a:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(78, 205, 196, 0.5);
+      }
+
+      .container {
+        position: relative;
+        z-index: 1;
+        max-width: 650px;
+        margin: 60px auto;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 25px;
+        padding: 50px;
+        box-shadow: 0 20px 60px rgba(255, 107, 157, 0.2);
+        border: 3px solid #ff6b9d;
+        animation: fadeInUp 0.8s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(
+          90deg,
+          #ff6b9d,
+          #ffa94d,
+          #ffd93d,
+          #6bcb77,
+          #4ecdc4
+        );
+      }
+
+      .form-header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .form-header h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 10px;
+      }
+
+      .form-header p {
+        font-size: 1.1rem;
+        color: #7f8c8d;
+        font-weight: 300;
+      }
+
+      .input-group {
+        margin-bottom: 25px;
+        position: relative;
+      }
+
+      .input-group label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #5d6d7e;
+        font-size: 0.95rem;
+      }
+
+      .input-icon {
+        position: absolute;
+        left: 15px;
+        top: 43px;
+        font-size: 1.2rem;
+        color: #7f8c8d;
+        pointer-events: none;
+      }
+
+      input {
+        width: 100%;
+        padding: 15px 15px 15px 45px;
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-family: "Poppins", sans-serif;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.8);
+      }
+
+      input:focus {
+        outline: none;
+        border-color: #ff6b9d;
+        background: #fff;
+        box-shadow: 0 5px 15px rgba(255, 107, 157, 0.2);
+      }
+
+      input::placeholder {
+        color: #a0a0a0;
+      }
+
+      button {
+        width: 100%;
+        padding: 18px;
+        background: linear-gradient(135deg, #ff6b9d, #ffa94d);
+        color: white;
+        font-size: 1.2rem;
+        font-weight: 700;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(255, 107, 157, 0.4);
+        margin-top: 10px;
+      }
+
+      button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(255, 107, 157, 0.6);
+      }
+
+      button:active {
+        transform: translateY(-1px);
+      }
+
+      .form-note {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 0.9rem;
+        color: #7f8c8d;
+        padding: 12px;
+        background: linear-gradient(
+          135deg,
+          rgba(78, 205, 196, 0.1),
+          rgba(107, 203, 119, 0.1)
+        );
+        border-radius: 8px;
+        border-left: 3px solid #4ecdc4;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .navbar {
+          flex-direction: row;
+          flex-wrap: wrap;
+          padding: 20px;
+        }
+
+        .navbar-left {
+          gap: 15px;
+        }
+
+        .navbar-logo {
+          width: 50px;
+          height: 50px;
+        }
+
+        .navbar h1 {
+          font-size: 1.3rem;
+        }
+
+        .container {
+          margin: 30px 20px;
+          padding: 35px 25px;
+        }
+
+        .form-header h2 {
+          font-size: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-animation">
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="navbar-left">
+        <img src="/images/logo.jpg" alt="1stChoice Logo" class="navbar-logo" />
+        <h1>Add Category</h1>
+      </div>
+      <a href="/dashboard">← Back</a>
+    </nav>
+
+    <div class="container">
+      <div class="form-header">
+        <h2>🗂️ Add New Category</h2>
+        <p>Create a new category for better organization</p>
+      </div>
+
+      <form action="/categories" method="POST">
+        <div class="input-group">
+          <label>Category Name</label>
+          <span class="input-icon">📁</span>
+          <input
+            type="text"
+            name="name"
+            placeholder="Enter category name (e.g., Toys, Decoration)"
+            required
+            autofocus
+          />
+        </div>
+
+        <div class="input-group">
+          <label>Category Code</label>
+          <span class="input-icon">🔖</span>
+          <input
+            type="text"
+            name="code"
+            placeholder="Enter unique code (e.g., TOY001, DEC005)"
+            required
+          />
+        </div>
+
+        <button type="submit">✅ Save Category</button>
+
+        <div class="form-note">
+          💡 <strong>Tip:</strong> Use clear, descriptive names and unique codes
+          for easy identification
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

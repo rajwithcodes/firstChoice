@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🧾 New Bill | 1stChoice ERP</title>
+
+    <!-- Fonts & Select2 -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #fff5e6, #ffe8f0, #e6f7ff);
+        min-height: 100vh;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 50px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 5px 20px rgba(255, 107, 157, 0.15);
+      }
+
+      .navbar-left {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .navbar-logo {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #fff;
+        box-shadow: 0 5px 15px rgba(255, 107, 157, 0.3);
+      }
+
+      .navbar h1 {
+        font-size: 1.8rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #ff6b9d, #ffa94d, #4ecdc4);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .navbar a {
+        padding: 12px 30px;
+        background: linear-gradient(135deg, #4ecdc4, #6bcb77);
+        color: white;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(78, 205, 196, 0.3);
+      }
+
+      .navbar a:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(78, 205, 196, 0.5);
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 40px auto;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(15px);
+        padding: 40px;
+        border-radius: 25px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        border: 3px solid transparent;
+        border-image: linear-gradient(90deg, #ff6b9d, #ffa94d, #4ecdc4) 1;
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        font-size: 2rem;
+        font-weight: 800;
+        color: #2c3e50;
+      }
+
+      h3 {
+        margin-bottom: 10px;
+        color: #ff6b9d;
+        font-size: 1.3rem;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        color: #5d6d7e;
+        margin-top: 10px;
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        margin-bottom: 10px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #fff;
+      }
+
+      input:focus,
+      select:focus {
+        border-color: #ff6b9d;
+        box-shadow: 0 0 5px rgba(255, 107, 157, 0.3);
+      }
+
+      .form-section {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(255, 107, 157, 0.1);
+        margin-bottom: 20px;
+      }
+
+      .product-row {
+        display: grid;
+        grid-template-columns: 0.8fr 1fr 1.3fr 0.7fr 0.7fr 0.7fr auto;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .product-row button.remove {
+        background: linear-gradient(135deg, #ff6b9d, #ffa94d);
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      .stock-info {
+        font-size: 0.9rem;
+        color: #2e86de;
+        font-weight: 600;
+        text-align: right;
+        grid-column: span 7;
+        margin-top: -5px;
+      }
+
+      #add-product {
+        margin-top: 10px;
+        background: linear-gradient(135deg, #4ecdc4, #6bcb77);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      #save-bill {
+        width: 100%;
+        margin-top: 25px;
+        background: linear-gradient(135deg, #ff6b9d, #ffa94d);
+        color: white;
+        border: none;
+        padding: 15px;
+        border-radius: 15px;
+        font-size: 1.2rem;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(255, 107, 157, 0.4);
+      }
+
+      #save-bill:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(255, 107, 157, 0.5);
+      }
+
+      .totals-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+      }
+
+      .total-item {
+        padding: 15px;
+        border-radius: 12px;
+        border: 2px solid #4ecdc4;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 107, 157, 0.08),
+          rgba(78, 205, 196, 0.08)
+        );
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <div class="navbar-left">
+        <img src="/images/logo.jpg" alt="1stChoice Logo" class="navbar-logo" />
+        <h1>1stChoice ERP</h1>
+      </div>
+      <a href="/dashboard">← Back</a>
+    </nav>
+
+    <div class="container">
+      <h2>🧾 Create New Bill</h2>
+
+      <form action="/billing" method="POST">
+        <!-- CUSTOMER -->
+        <div class="form-section">
+          <h3>👥 Customer Details</h3>
+          <label>Phone</label>
+          <input type="text" name="customer[phone]" required />
+          <label>Name</label>
+          <input type="text" name="customer[name]" required />
+          <label>Address</label>
+          <input type="text" name="customer[address]" />
+        </div>
+
+        <!-- PRODUCTS -->
+        <div class="form-section">
+          <h3>🧸 Products</h3>
+          <div id="product-list">
+            <div class="product-row">
+              <input
+                type="text"
+                class="product-id"
+                name="items[0][productId]"
+                placeholder="Enter Product ID"
+              />
+              <select class="category" name="items[0][category]" required>
+                <option value="">Select Category</option>
+              </select>
+              <select class="product" name="items[0][product]" required>
+                <option value="">Select Product</option>
+              </select>
+              <input type="number" name="items[0][qty]" min="1" value="1" />
+              <input
+                type="number"
+                name="items[0][unitPrice]"
+                min="1"
+                placeholder="Price ₹"
+                readonly
+              />
+              <input
+                type="number"
+                name="items[0][discount]"
+                min="0"
+                max="100"
+                placeholder="Disc %"
+              />
+              <button type="button" class="remove">❌</button>
+              <div class="stock-info"></div>
+            </div>
+          </div>
+          <button type="button" id="add-product">+ Add Product</button>
+        </div>
+
+        <!-- DISCOUNTS -->
+        <div class="form-section">
+          <h3>💸 Global Discounts</h3>
+          <label>Global Discount (%)</label>
+          <input
+            type="number"
+            id="discount"
+            name="discounts[globalPercent]"
+            min="0"
+            max="100"
+            value="0"
+          />
+          <label>Additional Discount (₹)</label>
+          <input
+            type="number"
+            name="discounts[additionalAmount]"
+            value="0"
+            min="0"
+          />
+        </div>
+
+        <!-- PAYMENT -->
+        <div class="form-section">
+          <h3>💳 Payment</h3>
+          <label>Method</label>
+          <select id="paymentMethod" name="payments[0][method]" required>
+            <option value="cash">Cash</option>
+            <option value="upi">UPI</option>
+            <option value="card">Card</option>
+            <option value="mixed">Cash + UPI (Mixed)</option>
+          </select>
+
+          <div id="single-payment">
+            <label>Payment Amount (₹)</label>
+            <input
+              type="number"
+              id="singleAmount"
+              name="payments[0][amount]"
+              placeholder="Amount paid"
+              required
+            />
+          </div>
+
+          <!-- Mixed Payment -->
+          <div id="mixed-payment" style="display: none">
+            <label>Cash Amount (₹)</label>
+            <input
+              type="number"
+              id="cashAmount"
+              name="payments[0][cashAmount]"
+              placeholder="Cash Paid"
+            />
+            <label>UPI Amount (₹)</label>
+            <input
+              type="number"
+              id="upiAmount"
+              name="payments[0][upiAmount]"
+              placeholder="UPI Paid"
+            />
+          </div>
+        </div>
+
+        <!-- SUMMARY -->
+        <div class="form-section">
+          <h3>🧾 Summary</h3>
+          <div class="totals-grid">
+            <div class="total-item">
+              <label>Total (₹)</label>
+              <input
+                type="number"
+                id="totalAmount"
+                name="totalAmount"
+                readonly
+              />
+            </div>
+            <div class="total-item">
+              <label>Total Paid (₹)</label>
+              <input type="number" id="totalPaid" name="totalPaid" readonly />
+            </div>
+            <div class="total-item">
+              <label>Change (₹)</label>
+              <input
+                type="number"
+                id="changeGiven"
+                name="changeGiven"
+                readonly
+              />
+            </div>
+            <div class="total-item">
+              <label>Pending (₹)</label>
+              <input type="number" id="pendingAmount" readonly />
+            </div>
+          </div>
+        </div>
+
+        <button id="save-bill" type="submit">✅ Save Bill & Print</button>
+      </form>
+    </div>
+    <script>
+      let count = 1;
+
+      async function fetchProductById(productId, row) {
+        try {
+          const res = await fetch(`/api/products/by-id/${productId}`);
+          const data = await res.json();
+          const categorySelect = row.querySelector(".category");
+          const productSelect = row.querySelector(".product");
+          const priceInput = row.querySelector('input[name*="[unitPrice]"]');
+          const stockInfo = row.querySelector(".stock-info");
+
+          if (data.success && data.product) {
+            const p = data.product;
+            categorySelect.innerHTML = `<option value="${p.category._id}" selected>${p.category.name}</option>`;
+            productSelect.innerHTML = `<option value="${p._id}" selected>${p.name}</option>`;
+            priceInput.value = p.markedPrice || "";
+            priceInput.readOnly = true;
+            stockInfo.textContent = `Available Stock: ${p.stockQty || 0} pcs`;
+            $(row).css("background", "rgba(78,205,196,0.15)");
+            updateTotal();
+          } else {
+            categorySelect.innerHTML = '<option value="">Invalid ID</option>';
+            productSelect.innerHTML = '<option value="">Not Found</option>';
+            priceInput.value = "";
+            stockInfo.textContent = "";
+            $(row).css("background", "rgba(255,107,157,0.15)");
+          }
+        } catch (err) {
+          console.error("Error fetching product:", err);
+        }
+      }
+
+      $(document).on("input", ".product-id", function () {
+        const val = this.value.trim();
+        if (val.length >= 2)
+          fetchProductById(val, this.closest(".product-row"));
+      });
+
+      $("#add-product").on("click", function () {
+        const list = $("#product-list");
+        const row = `
+      <div class="product-row">
+        <input type="text" class="product-id" name="items[${count}][productId]" placeholder="Enter Product ID" />
+        <select class="category" name="items[${count}][category]" required>
+          <option value="">Select Category</option>
+        </select>
+        <select class="product" name="items[${count}][product]" required>
+          <option value="">Select Product</option>
+        </select>
+        <input type="number" name="items[${count}][qty]" min="1" value="1" />
+        <input type="number" name="items[${count}][unitPrice]" min="1" placeholder="Price ₹" readonly />
+        <input type="number" name="items[${count}][discount]" min="0" max="100" placeholder="Disc %" />
+        <button type="button" class="remove">❌</button>
+        <div class="stock-info"></div>
+      </div>`;
+        list.append(row);
+        count++;
+      });
+
+      $(document).on("click", ".remove", function () {
+        $(this).closest(".product-row").remove();
+        updateTotal();
+      });
+
+      $(document).on("change", "#paymentMethod", function () {
+        const method = this.value;
+        $("#single-payment").toggle(method !== "mixed");
+        $("#mixed-payment").toggle(method === "mixed");
+
+        // ✅ Instead of disabling inputs, make them readonly so they still submit
+        if (method === "mixed") {
+          $("#singleAmount").prop("readonly", true).val("");
+          $("#cashAmount").prop("readonly", false);
+          $("#upiAmount").prop("readonly", false);
+        } else {
+          $("#singleAmount").prop("readonly", false);
+          $("#cashAmount").prop("readonly", true).val("");
+          $("#upiAmount").prop("readonly", true).val("");
+        }
+
+        updateTotal();
+      });
+
+      $(document).on(
+        "input",
+        `
+      input[name*="[qty]"],
+      input[name*="[unitPrice]"],
+      input[name*="[discount]"],
+      #discount,
+      input[name="discounts[additionalAmount]"],
+      #singleAmount,
+      #cashAmount,
+      #upiAmount
+    `,
+        updateTotal
+      );
+
+      function updateTotal() {
+        let total = 0;
+        $(".product-row").each(function () {
+          const qty =
+            parseFloat($(this).find('input[name*="[qty]"]').val()) || 0;
+          const price =
+            parseFloat($(this).find('input[name*="[unitPrice]"]').val()) || 0;
+          const disc =
+            parseFloat($(this).find('input[name*="[discount]"]').val()) || 0;
+          const subtotal = qty * price;
+          total += subtotal - (subtotal * disc) / 100;
+        });
+
+        const globalDisc = parseFloat($("#discount").val()) || 0;
+        total -= (total * globalDisc) / 100;
+        const extraDisc =
+          parseFloat($('input[name="discounts[additionalAmount]"]').val()) || 0;
+        total -= extraDisc;
+        total = Math.max(total, 0);
+
+        const method = $("#paymentMethod").val();
+        let paid = 0;
+        if (method === "mixed") {
+          paid =
+            (parseFloat($("#cashAmount").val()) || 0) +
+            (parseFloat($("#upiAmount").val()) || 0);
+        } else {
+          paid = parseFloat($("#singleAmount").val()) || 0;
+        }
+
+        const change = paid > total ? paid - total : 0;
+        const pending = total > paid ? total - paid : 0;
+
+        $("#totalAmount").val(total.toFixed(2));
+        $("#totalPaid").val(paid.toFixed(2));
+        $("#changeGiven").val(change.toFixed(2));
+        $("#pendingAmount").val(pending.toFixed(2));
+      }
+
+      // ✅ Safe form submit with all fields sent to server
+      $("form").on("submit", function (e) {
+        if ($(".product-row").length === 0) {
+          e.preventDefault();
+          alert("⚠️ Please add at least one product before saving the bill!");
+          return false;
+        }
+
+        updateTotal();
+        $("#save-bill").prop("disabled", true).text("💾 Saving...");
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Product | 1stChoice ERP</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(
+          135deg,
+          #fff5e6 0%,
+          #ffe8f0 50%,
+          #e6f7ff 100%
+        );
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      .bg-animation {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .confetti {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        animation: fall 10s infinite ease-in-out;
+        opacity: 0.6;
+      }
+
+      .confetti:nth-child(1) {
+        background: #ff6b9d;
+        left: 10%;
+        animation-delay: 0s;
+      }
+      .confetti:nth-child(2) {
+        background: #ffa94d;
+        left: 25%;
+        animation-delay: 1.5s;
+      }
+      .confetti:nth-child(3) {
+        background: #4ecdc4;
+        left: 40%;
+        animation-delay: 3s;
+      }
+      .confetti:nth-child(4) {
+        background: #6bcb77;
+        left: 55%;
+        animation-delay: 0.8s;
+      }
+      .confetti:nth-child(5) {
+        background: #ffd93d;
+        left: 70%;
+        animation-delay: 2s;
+      }
+      .confetti:nth-child(6) {
+        background: #ff6b9d;
+        left: 85%;
+        animation-delay: 2.5s;
+      }
+
+      @keyframes fall {
+        0% {
+          transform: translateY(-10vh) rotate(0deg);
+          opacity: 0.8;
+        }
+        100% {
+          transform: translateY(110vh) rotate(360deg);
+          opacity: 0.2;
+        }
+      }
+
+      .navbar {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 50px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 5px 20px rgba(255, 107, 157, 0.15);
+        animation: slideDown 0.6s ease;
+      }
+
+      .navbar-left {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .navbar-logo {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #fff;
+        box-shadow: 0 5px 15px rgba(255, 107, 157, 0.3);
+        transition: all 0.3s ease;
+      }
+
+      .navbar-logo:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 20px rgba(255, 107, 157, 0.5);
+      }
+
+      .navbar h1 {
+        font-size: 1.8rem;
+        font-weight: 800;
+        background: linear-gradient(
+          135deg,
+          #ff6b9d,
+          #ffa94d,
+          #ffd93d,
+          #6bcb77,
+          #4ecdc4
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .navbar a {
+        padding: 12px 30px;
+        background: linear-gradient(135deg, #4ecdc4, #6bcb77);
+        color: white;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(78, 205, 196, 0.3);
+      }
+
+      .navbar a:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(78, 205, 196, 0.5);
+      }
+
+      .container {
+        position: relative;
+        z-index: 1;
+        max-width: 750px;
+        margin: 50px auto;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 25px;
+        padding: 50px;
+        box-shadow: 0 20px 60px rgba(78, 205, 196, 0.2);
+        border: 3px solid #4ecdc4;
+        animation: fadeInUp 0.8s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(
+          90deg,
+          #4ecdc4,
+          #6bcb77,
+          #ffd93d,
+          #ffa94d,
+          #ff6b9d
+        );
+      }
+
+      .form-header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .form-header h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 10px;
+      }
+
+      .form-header p {
+        font-size: 1.1rem;
+        color: #7f8c8d;
+        font-weight: 300;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .input-group {
+        margin-bottom: 10px;
+        position: relative;
+      }
+
+      .input-group.full-width {
+        grid-column: 1 / -1;
+      }
+
+      .input-group label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #5d6d7e;
+        font-size: 0.95rem;
+      }
+
+      .input-icon {
+        position: absolute;
+        left: 15px;
+        top: 43px;
+        font-size: 1.2rem;
+        color: #7f8c8d;
+        pointer-events: none;
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 15px 15px 15px 45px;
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-family: "Poppins", sans-serif;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.8);
+      }
+
+      input:focus,
+      select:focus {
+        outline: none;
+        border-color: #4ecdc4;
+        background: #fff;
+        box-shadow: 0 5px 15px rgba(78, 205, 196, 0.2);
+      }
+
+      input::placeholder {
+        color: #a0a0a0;
+      }
+
+      select {
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%237F8C8D' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+      }
+
+      button {
+        width: 100%;
+        padding: 18px;
+        background: linear-gradient(135deg, #4ecdc4, #6bcb77);
+        color: white;
+        font-size: 1.2rem;
+        font-weight: 700;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(78, 205, 196, 0.4);
+        margin-top: 20px;
+      }
+
+      button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(78, 205, 196, 0.6);
+      }
+
+      .form-note {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 0.9rem;
+        color: #7f8c8d;
+        padding: 12px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 107, 157, 0.1),
+          rgba(255, 169, 77, 0.1)
+        );
+        border-radius: 8px;
+        border-left: 3px solid #ff6b9d;
+      }
+
+      .price-group {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 215, 61, 0.1),
+          rgba(255, 169, 77, 0.1)
+        );
+        padding: 20px;
+        border-radius: 12px;
+        grid-column: 1 / -1;
+        border-left: 3px solid #ffd93d;
+        margin: 10px 0;
+      }
+
+      .price-group h3 {
+        color: #ffa94d;
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+        font-weight: 700;
+      }
+
+      .price-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .navbar {
+          flex-direction: row;
+          flex-wrap: wrap;
+          padding: 20px;
+        }
+
+        .navbar-left {
+          gap: 15px;
+        }
+
+        .navbar-logo {
+          width: 50px;
+          height: 50px;
+        }
+
+        .navbar h1 {
+          font-size: 1.3rem;
+        }
+
+        .container {
+          margin: 30px 20px;
+          padding: 35px 25px;
+        }
+
+        .form-header h2 {
+          font-size: 2rem;
+        }
+
+        .form-grid,
+        .price-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .price-group {
+          grid-column: 1;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="bg-animation">
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+      <div class="confetti"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="navbar-left">
+        <img src="/images/logo.jpg" alt="1stChoice Logo" class="navbar-logo" />
+        <h1>Add Product</h1>
+      </div>
+      <a href="/dashboard">← Back</a>
+    </nav>
+
+    <div class="container">
+      <div class="form-header">
+        <h2>🧸 Add New Product</h2>
+        <p>Fill in the details to add a product to your inventory</p>
+      </div>
+
+      <form action="/products" method="POST">
+        <div class="form-grid">
+          <!-- 🆔 Product ID (NEW) -->
+          <div class="input-group full-width">
+            <label>Product ID</label>
+            <span class="input-icon">🆔</span>
+            <input
+              type="text"
+              name="productId"
+              placeholder="Enter unique Product ID (e.g., P001, CAR102, TDR05)"
+              required
+            />
+          </div>
+
+          <div class="input-group full-width">
+            <label>Product Name</label>
+            <span class="input-icon">🎁</span>
+            <input
+              type="text"
+              name="name"
+              placeholder="Enter product name (e.g., Toy Car, Wall Decoration)"
+              required
+              autofocus
+            />
+          </div>
+
+          <div class="input-group full-width">
+            <label>Category</label>
+            <span class="input-icon">📂</span>
+            <select name="category" required>
+              <option value="">-- Select Category --</option>
+              <% categories.forEach(category => { %>
+              <option value="<%= category._id %>"><%= category.name %></option>
+              <% }) %>
+            </select>
+          </div>
+        </div>
+
+        <div class="price-group">
+          <h3>💰 Pricing Information</h3>
+          <div class="price-grid">
+            <div class="input-group">
+              <label>Marked Price (MRP)</label>
+              <span class="input-icon">💵</span>
+              <input
+                type="number"
+                name="markedPrice"
+                placeholder="₹ 0.00"
+                min="0"
+                step="0.01"
+                required
+              />
+            </div>
+
+            <div class="input-group">
+              <label>Wholesale Price</label>
+              <span class="input-icon">💳</span>
+              <input
+                type="number"
+                name="wholesalePrice"
+                placeholder="₹ 0.00"
+                min="0"
+                step="0.01"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="input-group full-width">
+            <label>Stock Quantity</label>
+            <span class="input-icon">📦</span>
+            <input
+              type="number"
+              name="stockQty"
+              placeholder="Available stock quantity"
+              min="0"
+              required
+            />
+          </div>
+        </div>
+
+        <button type="submit">✅ Save Product</button>
+
+        <div class="form-note">
+          💡 <strong>Tip:</strong> Make sure to set accurate pricing and stock
+          levels for smooth inventory management.
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

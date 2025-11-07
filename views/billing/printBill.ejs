@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Bill - <%= sale.billNumber %></title>
+    <style>
+      /* === Premium Black & White Thermal Bill === */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        width: 79mm;
+        margin: 0 auto;
+        font-size: 10.5px;
+        color: #000;
+        background: #fff;
+        line-height: 1.5;
+      }
+
+      /* ===== Header ===== */
+      .header {
+        text-align: center;
+        padding: 6px 0;
+        border-bottom: 2px solid #000;
+      }
+
+      .header img {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        margin-bottom: 4px;
+      }
+
+      .shop-name {
+        font-size: 17px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .tagline {
+        font-size: 10px;
+        letter-spacing: 0.3px;
+        margin-bottom: 3px;
+      }
+
+      .contact {
+        font-size: 9px;
+        color: #000;
+        line-height: 1.4;
+      }
+
+      /* ===== Section dividers ===== */
+      .divider {
+        border-top: 1px dashed #000;
+        margin: 6px 0;
+      }
+
+      /* ===== Bill Info ===== */
+      .bill-info {
+        font-size: 9.5px;
+        margin: 6px 0;
+      }
+
+      .bill-info b {
+        display: inline-block;
+        width: 65px;
+      }
+
+      /* ===== Table ===== */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 9.8px;
+        margin-top: 5px;
+      }
+
+      th {
+        border-bottom: 1px solid #000;
+        padding: 5px 2px;
+        text-transform: uppercase;
+        font-size: 9.5px;
+        letter-spacing: 0.4px;
+      }
+
+      td {
+        border-bottom: 1px dotted #555;
+        padding: 4px 2px;
+      }
+
+      th:nth-child(1),
+      td:nth-child(1) {
+        width: 45%;
+      }
+
+      th:nth-child(2),
+      td:nth-child(2) {
+        width: 15%;
+        text-align: center;
+      }
+
+      th:nth-child(3),
+      td:nth-child(3) {
+        width: 20%;
+        text-align: right;
+      }
+
+      th:nth-child(4),
+      td:nth-child(4) {
+        width: 20%;
+        text-align: right;
+      }
+
+      /* ===== Totals ===== */
+      .total-section {
+        border-top: 1px solid #000;
+        padding-top: 5px;
+        font-size: 10.5px;
+        margin-top: 6px;
+      }
+
+      .total-section p {
+        display: flex;
+        justify-content: space-between;
+        margin: 2px 0;
+      }
+
+      .total-section .bold {
+        font-weight: 700;
+        border-top: 1px dashed #000;
+        margin-top: 4px;
+        padding-top: 3px;
+      }
+
+      /* ===== Footer ===== */
+      .footer {
+        text-align: center;
+        margin-top: 10px;
+        border-top: 2px solid #000;
+        padding-top: 5px;
+      }
+
+      .thank {
+        font-weight: 700;
+        font-size: 11px;
+        letter-spacing: 0.3px;
+      }
+
+      .slogan {
+        font-size: 9.5px;
+        margin-top: 2px;
+      }
+
+      .dev {
+        font-size: 8.5px;
+        font-style: italic;
+        margin-top: 5px;
+        letter-spacing: 0.2px;
+      }
+
+      /* === Dynamic print sizing === */
+      @page {
+        size: 79mm auto;
+        margin: 0;
+      }
+
+      @media print {
+        html,
+        body {
+          width: 79mm;
+          height: auto !important;
+          overflow: visible !important;
+        }
+        table {
+          page-break-inside: avoid;
+        }
+        .footer {
+          page-break-after: avoid;
+        }
+      }
+
+      /* === 57mm Compatibility === */
+      @media print and (max-width: 65mm) {
+        body {
+          width: 57mm;
+          font-size: 9px;
+        }
+        .shop-name {
+          font-size: 13px;
+        }
+      }
+    </style>
+  </head>
+
+  <body
+    onload="
+      window.print();
+      const params = new URLSearchParams(window.location.search);
+      // ✅ Redirect only if not opened from report
+      if (params.get('from') !== 'report') {
+        setTimeout(() => window.location.href='/dashboard', 2000);
+      }
+    "
+  >
+    <!-- HEADER -->
+    <div class="header">
+      <img src="/images/logoT.png" alt="Logo" />
+      <div class="shop-name">1stChoice</div>
+      <div class="tagline">Toys & Decoration Shop</div>
+      <div class="contact">
+        📍 Bihar Sharif<br />
+        ☎️ +91-9771455495<br />
+      </div>
+    </div>
+
+    <!-- BILL INFO -->
+    <div class="bill-info">
+      <b>Bill No:</b> <%= sale.billNumber %><br />
+      <b>Date:</b> <%= new Date(sale.createdAt).toLocaleString("en-IN") %><br />
+      <b>Customer:</b> <%= sale.customer?.name || "Walk-in Customer" %><br />
+      <b>Phone:</b> <%= sale.customer?.phone || "-" %><br />
+      <% if (sale.customer?.address) { %>
+      <b>Address:</b> <%= sale.customer.address %><br />
+      <% } %>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- TABLE -->
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Qty</th>
+          <th>Rate</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% sale.items.forEach(i => { %>
+        <tr>
+          <td><%= i.name %></td>
+          <td><%= i.qty %></td>
+          <td>₹<%= i.unitPrice.toFixed(2) %></td>
+          <td>₹<%= (i.qty * i.unitPrice).toFixed(2) %></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+
+    <!-- TOTALS -->
+    <div class="total-section">
+      <p>
+        <span>Subtotal</span> <span>₹<%= sale.totalAmount.toFixed(2) %></span>
+      </p>
+
+      <% if (sale.discounts?.globalPercent || sale.discounts?.additionalAmount)
+      { %>
+      <p>
+        <span>Discount</span>
+        <span>
+          <% if (sale.discounts?.globalPercent) { %> (<%=
+          sale.discounts.globalPercent %>%) <% } %> ₹<%=
+          sale.discounts?.additionalAmount || 0 %>
+        </span>
+      </p>
+      <% } %>
+
+      <p class="bold">
+        <span>Total</span> <span>₹<%= sale.totalAmount.toFixed(2) %></span>
+      </p>
+      <p><span>Paid</span> <span>₹<%= sale.totalPaid.toFixed(2) %></span></p>
+
+      <% if (sale.totalPaid < sale.totalAmount) { %>
+      <p>
+        <span>Pending</span>
+        <span>₹<%= (sale.totalAmount - sale.totalPaid).toFixed(2) %></span>
+      </p>
+      <% } else if (sale.totalPaid > sale.totalAmount) { %>
+      <p>
+        <span>Change</span>
+        <span>₹<%= (sale.totalPaid - sale.totalAmount).toFixed(2) %></span>
+      </p>
+      <% } %>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div class="thank">Thank You for Shopping!</div>
+      <div class="slogan">Your Happiness is Our Priority 💫</div>
+      <div class="dev">Designed & Developed by Raj Singhania</div>
+    </div>
+  </body>
+</html>
