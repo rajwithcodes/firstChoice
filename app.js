@@ -224,7 +224,7 @@ app.post("/products", async (req, res) => {
     });
     await product.save();
     await updateDashboardCounts();
-    res.redirect("/products");
+    res.redirect("/products/new");
   } catch (err) {
     console.error("❌ Error adding product:", err);
     res.status(500).send("Error adding product");
